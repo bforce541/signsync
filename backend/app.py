@@ -8,50 +8,65 @@ import io
 import base64
 
 app = Flask(__name__)
-
-# Ensure CORS allows requests from your frontend (localhost:3000)
+# Allow CORS for localhost:3000, which is your React frontend
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+# Initialize SocketIO with CORS allowed for the same frontend origin
+socketio = SocketIO(app, cors_allowed_origins="http://localhost:3000", logger=True, engineio_logger=True)
 
-# Allow socket.io connections from frontend (localhost:3000)
-socketio = SocketIO(app, cors_allowed_origins="http://localhost:3000")
-
-# Load the model
+# Load the TensorFlow ASL model
 model = tf.keras.models.load_model('model/asl_model.h5')
 print("Model loaded successfully")
 
-# Define the class labels
+# Class labels for ASL prediction
 class_labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
+# Function to process and predict from the received image data
 def process_image(image_data):
-    # Decode the base64 image
-    image_bytes = base64.b64decode(image_data.split(',')[1])
-    image = Image.open(io.BytesIO(image_bytes))
-    image = image.resize((224, 224))
-    image_array = np.array(image) / 255.0
-    image_array = np.expand_dims(image_array, axis=0)
+    try:
+        image_bytes = base64.b64decode(image_data.split(',')[1])
+        image = Image.open(io.BytesIO(image_bytes))
+        image = image.resize((224, 224))  # Resize to match model input
+        image_array = np.array(image) / 255.0  # Normalize image data
+        image_array = np.expand_dims(image_array, axis=0)  # Add batch dimension
 
-    predictions = model.predict(image_array)
-    predicted_class = np.argmax(predictions[0])
-    predicted_label = class_labels[predicted_class]
-    confidence = float(predictions[0][predicted_class])
+        # Make prediction using the model
+        predictions = model.predict(image_array)
+        predicted_class = np.argmax(predictions[0])
+        predicted_label = class_labels[predicted_class]
+        confidence = float(predictions[0][predicted_class])
 
-    return predicted_label, confidence
+        return predicted_label, confidence
+    except Exception as e:
+        print(f"Error processing image: {str(e)}")
+        return None, None
 
+# WebSocket event for analyzing frames
 @socketio.on('analyze_frame')
 def handle_frame(frame_data):
-    predicted_label, confidence = process_image(frame_data)
-    emit('prediction_result', {
-        'predicted_label': predicted_label,
-        'confidence': confidence
-    })
+    try:
+        predicted_label, confidence = process_image(frame_data)
+        if predicted_label and confidence:
+            print(f"Emitting prediction: {predicted_label}, {confidence}")
+            emit('prediction_result', {
+                'predicted_label': predicted_label,
+                'confidence': confidence
+            })
+        else:
+            emit('error', {'message': 'Failed to process image'})
+    except Exception as e:
+        print(f"Error handling frame: {str(e)}")
+        emit('error', {'message': 'Error processing frame'})
 
+# WebSocket event for client connection
 @socketio.on('connect')
 def handle_connect():
     print('Client connected')
 
+# WebSocket event for client disconnection
 @socketio.on('disconnect')
 def handle_disconnect():
     print('Client disconnected')
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    # Run the server with WebSocket support
+    socketio.run(app, debug=True, host='0.0.0.0', port=5000)
