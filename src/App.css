@@ -11,7 +11,6 @@
   --footer-text-color: #f0f0f0;
   --link-color: #00d2ff;
   --footer-link-color: #f0f0f0;
-
 }
 
 * {
@@ -46,13 +45,42 @@ body {
 }
 
 h1 {
-  font-size: 80px;
+  font-size: 90px !important;
   margin-bottom: 15px;
   background: linear-gradient(90deg, var(--accent-color), var(--link-color));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-fill-color: transparent;
+}
+
+/* Navbar styling */
+.navbar {
+  width: 100%;
+  background-color: var(--primary-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 700px;
+  position: relative;
+}
+
+.logo {
+  font-size: 50px;
+  background: linear-gradient(90deg, var(--accent-color), var(--link-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav-link {
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 20px;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--link-color);
 }
 
 .video-container {

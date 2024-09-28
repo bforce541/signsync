@@ -103,7 +103,12 @@ function App() {
 
   return (
     <div className="App">
-      <h1>SIGNSYNC</h1>
+      <header className="navbar">
+        <a className="nav-link" href="/#">About</a>
+        <h1 className="logo">SIGNSYNC</h1>
+        <a className="nav-link" href="/#">Join Us</a>
+      </header>
+
       <p>Socket Status: {socketStatus}</p>
       <div className="video-container">
         <video ref={videoRef} autoPlay />
@@ -131,7 +136,7 @@ function App() {
           <p>
             <a href="https://forms.gle/vdX9KEm1Z4HhUfkFA">Contribute hand sign data!</a>
           </p>
-          <p><a href="mailto:info@signsync.com">PLACEHOLDER</a></p>
+          <p><a href="mailto:info.signsync@gmail.com">Contact</a></p>
         </div>
       </footer>
     </div>
