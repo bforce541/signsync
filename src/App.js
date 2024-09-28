@@ -123,6 +123,17 @@ function App() {
           <p>{error}</p>
         </div>
       )}
+      <footer className="footer">
+        <div className="footer-left">
+          <p>&copy; 2024 SignSync. All rights reserved.</p>
+        </div>
+        <div className="footer-right">
+          <p>
+            <a href="https://forms.gle/vdX9KEm1Z4HhUfkFA">Contribute hand sign data!</a>
+          </p>
+          <p><a href="mailto:info@signsync.com">PLACEHOLDER</a></p>
+        </div>
+      </footer>
     </div>
   );
 }
