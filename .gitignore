@@ -9,3 +9,8 @@ __pycache__/
 
 # Ignore log files
 *.log
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

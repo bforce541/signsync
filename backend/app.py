@@ -8,13 +8,15 @@ import io
 import base64
 
 app = Flask(__name__)
-# Allow CORS for localhost:3000, which is your React frontend
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
-# Initialize SocketIO with CORS allowed for the same frontend origin
-socketio = SocketIO(app, cors_allowed_origins="http://localhost:3000", logger=True, engineio_logger=True)
+
+# Allow CORS for your S3 frontend
+CORS(app, resources={r"/*": {"origins": "http://signsync-frontend.s3-website.us-east-2.amazonaws.com"}})
+
+# Initialize SocketIO with CORS allowed for the S3 frontend origin and WebSocket transports
+socketio = SocketIO(app, cors_allowed_origins="http://signsync-frontend.s3-website.us-east-2.amazonaws.com", transports=['websocket', 'polling'])
 
 # Load the TensorFlow ASL model
-model = tf.keras.models.load_model('model/asl_model.h5')
+model = tf.keras.models.load_model('./model/asl_model.h5')
 print("Model loaded successfully")
 
 # Class labels for ASL prediction
@@ -68,5 +70,8 @@ def handle_disconnect():
     print('Client disconnected')
 
 if __name__ == '__main__':
-    # Run the server with WebSocket support
-    socketio.run(app, debug=True, host='0.0.0.0', port=5000)
+    socketio.run(app, debug=False, host='0.0.0.0', port=8080)
+
+@app.route('/health')
+def health_check():
+    return 'OK', 200

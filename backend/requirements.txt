@@ -4,3 +4,5 @@ flask-socketio==5.3.2
 tensorflow==2.16.2
 pillow==10.4.0
 numpy==1.26.4
+gunicorn
+eventlet
