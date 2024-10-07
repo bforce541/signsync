@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import './App.css';
 
 // Initialize the WebSocket connection to the backend
-const socket = io('http://backend2-dev.us-east-2.elasticbeanstalk.com', {
+const socket = io('https://agile-shelf-19406.herokuapp.com', {
   withCredentials: false,
 });
 
