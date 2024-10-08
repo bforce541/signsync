@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 :root {
-  --primary-color: #0a0a0a;
-  --accent-color: #6a0dad;
+  --primary-color: #0a0a0a; /* Dark mode background */
+  --accent-color: #6a0dad; /* Purple Highlight */
   --text-color: #f0f0f0;
   --button-bg-color: #6a0dad;
   --button-hover-color: #8e44ad;
@@ -11,6 +11,19 @@
   --footer-text-color: #f0f0f0;
   --link-color: #00d2ff;
   --footer-link-color: #f0f0f0;
+  --footer-bg-light: #f0f0f0; /* Light mode footer background */
+  --footer-text-light-color: #0a0a0a; /* Light mode footer text color */
+  --footer-link-light-color: #0a0a0a; /* Light mode footer link color */
+}
+
+/* Light Mode */
+body.light-mode {
+  --primary-color: #ffffff; /* Light mode background */
+  --accent-color: #6a0dad;
+  --text-color: #0a0a0a;
+  --footer-bg-color: #f0f0f0;
+  --button-bg-color: #6a0dad;
+  --button-hover-color: #8e44ad;
 }
 
 * {
@@ -31,12 +44,13 @@ body {
   font-size: 16px;
   display: flex;
   flex-direction: column;
+  transition: background-color 0.5s ease, color 0.5s ease; /* Smooth transition */
 }
 
 .App {
   text-align: center;
   flex: 1;
-  padding: 40px 20px;
+  padding: 20px 20px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -59,7 +73,7 @@ h1 {
   width: 100%;
   background-color: var(--primary-color);
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 15px 10%; /* Adjusted for better responsiveness */
   position: relative;
@@ -76,8 +90,8 @@ h1 {
   color: var(--text-color);
   text-decoration: none;
   font-size: 20px;
-  margin-left: 40px; /* Increased margin for better spacing */
-  margin-right: 40px; /* Increased margin for better spacing */
+  margin-left: 50px;
+  margin-right: 50px;
   transition: color 0.3s ease;
 }
 
@@ -86,7 +100,7 @@ h1 {
 }
 
 .video-container {
-  margin: 40px auto;
+  margin: 15px auto;
   max-width: 640px;
   width: 100%;
 }
@@ -100,25 +114,28 @@ video {
 button {
   font-size: 18px;
   padding: 10px 25px;
-  margin-top: 20px;
+  margin-top: 15px;
   cursor: pointer;
   background: linear-gradient(90deg, var(--accent-color), var(--link-color));
   color: var(--button-text-color);
   border: none;
   border-radius: 30px;
-  transition: background-color 0.3s ease;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
   background-color: var(--button-hover-color);
+  transform: scale(1.05);
 }
 
 .prediction {
-  margin-top: 20px;
+  margin-top: 15px;
   background-color: #333;
   padding: 15px 30px;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+  position: relative;
+  z-index: 1;
 }
 
 .prediction h2, .prediction p {
@@ -127,12 +144,12 @@ button:hover {
 }
 
 h2 {
-  font-size: 24px;
+  font-size: 28px;
   margin-bottom: 10px;
 }
 
 p {
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .error {
@@ -167,4 +184,105 @@ p {
 
 .footer a:hover {
   text-decoration: underline;
+}
+
+/* Toggle Switch Styling */
+.toggle-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.toggle-label {
+  margin-right: 10px;
+  font-size: 16px;
+  color: var(--text-color);
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #00d2ff;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--button-hover-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+/* Footer text color for light mode */
+body.light-mode .footer {
+  background-color: var(--footer-bg-light);
+  color: var(--footer-text-light-color);
+}
+
+body.light-mode .footer a {
+  color: var(--footer-link-light-color); /* Add this for the footer link color in light mode */
+}
+
+.footer a {
+  color: var(--footer-link-color); /* Footer link color for dark mode */
+}
+
+/* Responsive footer for smaller screens */
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .footer-left, .footer-right {
+    margin: 10px 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  .footer p, .footer a {
+    font-size: 14px;
+  }
+}
+
+/* Prediction box style for light mode */
+body.light-mode .prediction {
+  background-color: #f0f0f0; /* Light background */
+  color: #333; /* Darker text color */
+  border: 1px solid #ccc; /* Optional: border for clarity */
 }

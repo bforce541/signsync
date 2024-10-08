@@ -12,6 +12,7 @@ function App() {
   const [prediction, setPrediction] = useState({ predicted_label: '', confidence: 0 });
   const [error, setError] = useState(null);
   const [socketStatus, setSocketStatus] = useState('Disconnected');
+  const [darkMode, setDarkMode] = useState(true); // Add dark mode state
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -54,7 +55,6 @@ function App() {
       setError(null);
     });
 
-    // Handle error from the server
     socket.on('error', (errorMessage) => {
       console.error('Received error from server:', errorMessage);
       setError(errorMessage.message);
@@ -101,6 +101,11 @@ function App() {
     };
   }, [isAnalyzing]);
 
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+    document.body.classList.toggle('light-mode', !darkMode);
+  };
+
   return (
     <div className="App">
       <header className="navbar">
@@ -108,6 +113,14 @@ function App() {
         <h1 className="logo">SIGNSYNC</h1>
         <a className="nav-link" href="/#">Join Us</a>
       </header>
+
+      <div className="toggle-container">
+        <label className="toggle-label">Change Mode</label>
+        <label className="toggle-switch">
+          <input type="checkbox" checked={!darkMode} onChange={toggleTheme} />
+          <span className="slider"></span>
+        </label>
+      </div>
 
       <p>Socket Status: {socketStatus}</p>
       <div className="video-container">
@@ -119,7 +132,7 @@ function App() {
       </button>
       {isAnalyzing && !error && (
         <div className="prediction">
-          <h2>Predicted Letter: {prediction.predicted_label || 'Waiting...'}</h2>
+          <h2>Translation: {prediction.predicted_label || 'Waiting...'}</h2>
           <p>Confidence: {prediction.confidence ? `${(prediction.confidence * 100).toFixed(2)}%` : 'N/A'}</p>
         </div>
       )}
@@ -130,7 +143,8 @@ function App() {
       )}
       <footer className="footer">
         <div className="footer-left">
-          <p>&copy; 2024 SignSync. All rights reserved.</p>
+          <p>&copy; 2024 SignSync. All rights reserved</p>
+          <p>Developed by Yoshua Alexander</p>
         </div>
         <div className="footer-right">
           <p>
