@@ -122,7 +122,7 @@ function App() {
         </label>
       </div>
 
-      <p>Socket Status: {socketStatus}</p>
+      <p className="socket-status">Socket Status: {socketStatus}</p>
       <div className="video-container">
         <video ref={videoRef} autoPlay />
         <canvas ref={canvasRef} style={{ display: 'none' }} />

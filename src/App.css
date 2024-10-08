@@ -136,6 +136,9 @@ button:hover {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
   position: relative;
   z-index: 1;
+  width: 80%; /* Adjust width for the box (e.g., 80% of the parent) */
+  max-width: 600px; /* Optional: set a max width */
+  text-align: center; /* Ensure text is centered */
 }
 
 .prediction h2, .prediction p {
@@ -286,3 +289,15 @@ body.light-mode .prediction {
   color: #333; /* Darker text color */
   border: 1px solid #ccc; /* Optional: border for clarity */
 }
+
+.socket-status {
+  background-color: #fa5757;
+  color: #ffffff; /* White text for better contrast */
+  padding: 10px; /* Add padding to create a box effect */
+  border-radius: 5px; /* Round the edges for a smoother look */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Optional: Add a subtle shadow */
+  margin: 15px 0; /* Space it from other elements */
+  font-weight: bold; /* Make the text bold */
+  text-align: center; /* Center the text */
+}
+
