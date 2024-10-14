@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 :root {
-  --primary-color: #0a0a0a; /* Dark mode background */
-  --accent-color: #6a0dad; /* Purple Highlight */
+  --primary-color: #0a0a0a;
+  /* Dark mode background */
+  --accent-color: #6a0dad;
+  /* Purple Highlight */
   --text-color: #f0f0f0;
   --button-bg-color: #6a0dad;
   --button-hover-color: #8e44ad;
@@ -11,14 +13,18 @@
   --footer-text-color: #f0f0f0;
   --link-color: #00d2ff;
   --footer-link-color: #f0f0f0;
-  --footer-bg-light: #f0f0f0; /* Light mode footer background */
-  --footer-text-light-color: #0a0a0a; /* Light mode footer text color */
-  --footer-link-light-color: #0a0a0a; /* Light mode footer link color */
+  --footer-bg-light: #ffffff;
+  /* Light mode footer background */
+  --footer-text-light-color: #0a0a0a;
+  /* Light mode footer text color */
+  --footer-link-light-color: #0a0a0a;
+  /* Light mode footer link color */
 }
 
 /* Light Mode */
 body.light-mode {
-  --primary-color: #ffffff; /* Light mode background */
+  --primary-color: #ffffff;
+  /* Light mode background */
   --accent-color: #6a0dad;
   --text-color: #0a0a0a;
   --footer-bg-color: #f0f0f0;
@@ -33,7 +39,8 @@ body.light-mode {
   font-family: 'Roboto', sans-serif;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
 }
@@ -44,7 +51,8 @@ body {
   font-size: 16px;
   display: flex;
   flex-direction: column;
-  transition: background-color 0.5s ease, color 0.5s ease; /* Smooth transition */
+  transition: background-color 0.5s ease, color 0.5s ease;
+  /* Smooth transition */
 }
 
 .App {
@@ -68,30 +76,37 @@ h1 {
   text-fill-color: transparent;
 }
 
-/* Navbar styling */
 .navbar {
   width: 100%;
   background-color: var(--primary-color);
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding: 15px 10%; /* Adjusted for better responsiveness */
+  padding: 5px 5%;
+  margin-top: 0;
   position: relative;
 }
 
-.logo {
-  font-size: 50px;
-  background: linear-gradient(90deg, var(--accent-color), var(--link-color));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Flex container for left and center */
+.nav-left {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
 }
 
+.nav-center {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Individual link styling */
 .nav-link {
   color: var(--text-color);
   text-decoration: none;
   font-size: 20px;
-  margin-left: 50px;
-  margin-right: 50px;
+  margin: 0 20px;
   transition: color 0.3s ease;
 }
 
@@ -99,17 +114,78 @@ h1 {
   color: var(--link-color);
 }
 
+/* Logo styling remains centered */
+.logo {
+  font-size: 50px;
+  background: linear-gradient(90deg, var(--accent-color), var(--link-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Ensure all elements are aligned properly */
+.nav-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* Updated Video Container for Responsiveness */
 .video-container {
   margin: 15px auto;
   max-width: 640px;
   width: 100%;
+  height: auto;
+  /* Ensure it scales proportionally */
 }
 
 video {
   width: 100%;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+  max-width: 100%;
+  /* Ensure the video never exceeds the container */
+  height: auto;
+  /* Maintain aspect ratio */
 }
+
+/* Media queries for 1280px screens */
+@media (max-width: 1280px) {
+  .video-container {
+    max-width: 550px;
+    /* Smaller max width for 1280px screens */
+    height: 400px;
+    /* Adjust height to avoid pushing elements too far down */
+  }
+}
+
+@media (max-width: 1024px) {
+  .video-container {
+    max-width: 480px;
+    /* Smaller max width for tablets */
+    height: 350px;
+    /* Adjust height for tablets */
+  }
+}
+
+@media (max-width: 768px) {
+  .video-container {
+    max-width: 360px;
+    /* Smaller max width for smaller screens */
+    height: 270px;
+    /* Adjust height for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .video-container {
+    max-width: 300px;
+    /* Even smaller for mobile devices */
+    height: 225px;
+    /* Adjust height for mobile devices */
+  }
+}
+
 
 button {
   font-size: 18px;
@@ -121,6 +197,7 @@ button {
   border: none;
   border-radius: 30px;
   transition: background 0.3s ease, transform 0.2s ease;
+  z-index: 2;
 }
 
 button:hover {
@@ -136,12 +213,16 @@ button:hover {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
   position: relative;
   z-index: 1;
-  width: 80%; /* Adjust width for the box (e.g., 80% of the parent) */
-  max-width: 600px; /* Optional: set a max width */
-  text-align: center; /* Ensure text is centered */
+  width: 80%;
+  /* Adjust width for the box (e.g., 80% of the parent) */
+  max-width: 600px;
+  /* Optional: set a max width */
+  text-align: center;
+  /* Ensure text is centered */
 }
 
-.prediction h2, .prediction p {
+.prediction h2,
+.prediction p {
   color: var(--text-color);
   margin: 0;
 }
@@ -241,11 +322,11 @@ p {
   border-radius: 50%;
 }
 
-input:checked + .slider {
+input:checked+.slider {
   background-color: var(--button-hover-color);
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
   transform: translateX(26px);
 }
 
@@ -256,11 +337,13 @@ body.light-mode .footer {
 }
 
 body.light-mode .footer a {
-  color: var(--footer-link-light-color); /* Add this for the footer link color in light mode */
+  color: var(--footer-link-light-color);
+  /* Add this for the footer link color in light mode */
 }
 
 .footer a {
-  color: var(--footer-link-color); /* Footer link color for dark mode */
+  color: var(--footer-link-color);
+  /* Footer link color for dark mode */
 }
 
 /* Responsive footer for smaller screens */
@@ -272,32 +355,43 @@ body.light-mode .footer a {
     padding: 20px;
   }
 
-  .footer-left, .footer-right {
+  .footer-left,
+  .footer-right {
     margin: 10px 0;
     width: 100%;
     text-align: center;
   }
 
-  .footer p, .footer a {
+  .footer p,
+  .footer a {
     font-size: 14px;
   }
 }
 
 /* Prediction box style for light mode */
 body.light-mode .prediction {
-  background-color: #f0f0f0; /* Light background */
-  color: #333; /* Darker text color */
-  border: 1px solid #ccc; /* Optional: border for clarity */
+  background-color: #f0f0f0;
+  /* Light background */
+  color: #333;
+  /* Darker text color */
+  border: 1px solid #ccc;
+  /* Optional: border for clarity */
 }
 
 .socket-status {
   background-color: #fa5757;
-  color: #ffffff; /* White text for better contrast */
-  padding: 10px; /* Add padding to create a box effect */
-  border-radius: 5px; /* Round the edges for a smoother look */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Optional: Add a subtle shadow */
-  margin: 15px 0; /* Space it from other elements */
-  font-weight: bold; /* Make the text bold */
-  text-align: center; /* Center the text */
+  color: #ffffff;
+  /* White text for better contrast */
+  padding: 10px;
+  /* Add padding to create a box effect */
+  border-radius: 5px;
+  /* Round the edges for a smoother look */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  /* Optional: Add a subtle shadow */
+  margin: 0px 0;
+  /* Space it from other elements */
+  font-weight: bold;
+  /* Make the text bold */
+  text-align: center;
+  /* Center the text */
 }
-
