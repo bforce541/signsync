@@ -22,8 +22,17 @@ function Home() {
   useEffect(() => {
     if (isCrawler()) {
       document.body.innerHTML = `
-        <h1>SignSync AI</h1>
-        <p>SignSync AI offers real-time sign language translation powered by advanced AI technology. Explore our features and learn more about sign language translation.</p>
+        <h1>Welcome to SignSync AI</h1>
+        <p>SignSync AI is a cutting-edge platform designed to translate sign language into text using advanced AI and machine learning technology. 
+        Whether you're learning ASL or need a tool to assist in real-time communication, SignSync AI offers high accuracy and user-friendly interaction. 
+        Learn more about our mission to bridge communication gaps and revolutionize the way we connect with the hearing-impaired community.</p>
+        <h2>Key Features of SignSync AI</h2>
+        <ul>
+          <li>Real-time sign language translation</li>
+          <li>Powered by advanced AI models</li>
+          <li>Easy-to-use interface for seamless communication</li>
+          <li>Ongoing improvements with user-contributed hand sign data</li>
+        </ul>
         <a href="https://signsyncai.org">Learn More</a>
       `;
       return;
@@ -55,20 +64,6 @@ function Home() {
           console.error("Error accessing the webcam", err);
           setError("Failed to access webcam. Please ensure you have given permission and try again.");
         });
-
-      // Commented out WebSocket code (not needed temporarily)
-      /*
-      socket.on('prediction_result', (data) => {
-        console.log('Received prediction:', data);
-        setPrediction(data);
-        setError(null);
-      });
-
-      socket.on('error', (errorMessage) => {
-        console.error('Received error from server:', errorMessage);
-        setError(errorMessage.message);
-      });
-      */
 
     }
   }, []);

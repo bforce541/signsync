@@ -42,9 +42,18 @@
 
   <!-- Simple Content for Crawlers and Fallback for No-JS Users -->
   <noscript>
-    <h1>SignSync AI</h1>
-    <p>SignSync AI offers real-time sign language translation powered by cutting-edge AI technology. Translate sign
-      language to text with high accuracy and ease.</p>
+    <h1>Welcome to SignSync AI</h1>
+    <p>SignSync AI is a cutting-edge platform designed to translate sign language into text using advanced AI
+      technology.
+      Learn how we are bridging the communication gap for the hearing-impaired community. Our real-time translation tool
+      offers high accuracy, ease of use, and ongoing improvements with contributions from the community.</p>
+    <h2>Features</h2>
+    <ul>
+      <li>Real-time ASL to text translation</li>
+      <li>Accurate predictions using machine learning models</li>
+      <li>Community contributions for continuous improvements</li>
+      <li>User-friendly interface</li>
+    </ul>
     <a href="https://signsyncai.org">Learn More</a>
   </noscript>
 
@@ -67,8 +76,17 @@
 
     if (isCrawler()) {
       document.body.innerHTML = `
-        <h1>SignSync AI</h1>
-        <p>SignSync AI offers real-time sign language translation with cutting-edge AI technology.</p>
+        <h1>Welcome to SignSync AI</h1>
+        <p>SignSync AI is a cutting-edge platform designed to translate sign language into text using advanced AI technology. 
+           Learn how we are bridging the communication gap for the hearing-impaired community. Our real-time translation tool 
+           offers high accuracy, ease of use, and ongoing improvements with contributions from the community.</p>
+        <h2>Features</h2>
+        <ul>
+          <li>Real-time ASL to text translation</li>
+          <li>Accurate predictions using machine learning models</li>
+          <li>Community contributions for continuous improvements</li>
+          <li>User-friendly interface</li>
+        </ul>
         <a href="https://signsyncai.org">Learn More</a>
       `;
     } else {
