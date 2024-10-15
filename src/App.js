@@ -21,6 +21,7 @@ function Home() {
 
   useEffect(() => {
     if (isCrawler()) {
+      // Provide content for crawlers without the need for webcam access
       document.body.innerHTML = `
         <h1>Welcome to SignSync AI</h1>
         <p>SignSync AI is a cutting-edge platform designed to translate sign language into text using advanced AI and machine learning technology. 
@@ -35,9 +36,10 @@ function Home() {
         </ul>
         <a href="https://signsyncai.org">Learn More</a>
       `;
-      return;
+      return; // Early return, skip webcam setup
     }
 
+    // Real users - proceed with webcam access
     const savedMode = localStorage.getItem('darkMode');
     if (savedMode === 'true') {
       setDarkMode(true);
@@ -46,26 +48,19 @@ function Home() {
       setDarkMode(false);
       document.body.classList.add('light-mode');
     }
-  }, []);
 
-  useEffect(() => {
-    if (!isCrawler()) {
-      console.log('Skipping WebSocket connection due to server simulation.');
-
-      // Access the webcam
-      navigator.mediaDevices.getUserMedia({ video: true })
-        .then(stream => {
-          console.log('Webcam access granted');
-          if (videoRef.current) {
-            videoRef.current.srcObject = stream;
-          }
-        })
-        .catch(err => {
-          console.error("Error accessing the webcam", err);
-          setError("Failed to access webcam. Please ensure you have given permission and try again.");
-        });
-
-    }
+    // Access the webcam for users only
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        console.log('Webcam access granted');
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      })
+      .catch(err => {
+        console.error("Error accessing the webcam", err);
+        setError("Failed to access webcam. Please ensure you have given permission and try again.");
+      });
   }, []);
 
   const toggleAnalyzing = () => {
