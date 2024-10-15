@@ -1,102 +1,126 @@
-/* src/About.css */
-
 .about-container {
-    padding: 40px;
-    margin: 0 auto;
-    max-width: 800px;
-    background-color: #f5f5f5;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    background-color: var(--primary-color);
+    color: var(--text-color);
 }
 
-.about-header h1 {
-    font-size: 2.5rem;
-    color: #070d30;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.intro-text {
-    font-size: 1.25rem;
-    text-align: center;
-    color: #333;
-    margin-bottom: 40px;
-}
-
-.about-mission,
-.about-vision,
-.about-team,
-.about-goals,
-.about-call-to-action {
+/* Updated h1 style */
+.about-header {
+    font-size: 36px;
+    font-weight: 100;
     margin-bottom: 30px;
+    text-align: center;
+    color: #4fc3f7;
+
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 10px;
 }
 
-.about-mission h2,
-.about-vision h2,
-.about-team h2,
-.about-goals h2,
-.about-call-to-action h2 {
-    font-size: 1.75rem;
-    color: #fa9e00;
+.about-content {
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.about-overview,
+.about-mission,
+.about-values,
+.about-story,
+.about-impact,
+.about-join,
+.about-methodology {
+    background-color: #1c1c1e;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.about-overview:hover,
+.about-mission:hover,
+.about-values:hover,
+.about-story:hover,
+.about-impact:hover,
+.about-join:hover,
+.about-methodology:hover {
+    background-color: #333333;
+    transform: translateY(-5px);
+}
+
+h2 {
+    font-size: 32px;
     margin-bottom: 15px;
 }
 
-.about-mission p,
-.about-vision p,
-.about-team p,
-.about-call-to-action p {
-    font-size: 1.15rem;
-    color: #555;
+p,
+ul {
+    font-size: 18px;
     line-height: 1.6;
 }
 
-.about-goals ul {
-    list-style-type: disc;
-    padding-left: 20px;
+ul {
+    list-style-type: none;
+    padding-left: 0;
 }
 
-.about-goals li {
-    font-size: 1.15rem;
-    color: #555;
+li {
     margin-bottom: 10px;
 }
 
-.about-call-to-action p {
-    font-weight: bold;
-    font-size: 1.25rem;
-    text-align: center;
+strong {
+    color: #4fc3f7;
 }
 
-@media (max-width: 768px) {
-    .about-container {
-        padding: 20px;
-    }
+.join-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 25px;
+    background-color: #4fc3f7;
+    color: var(--button-text-color);
+    border-radius: 30px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
-    .about-header h1 {
-        font-size: 2rem;
-    }
+.join-link:hover {
+    background-color: #9370db;
+    transform: scale(1.05);
+}
 
-    .intro-text {
-        font-size: 1rem;
-    }
+/* Adjustments for dark mode and light mode inclusivity */
+body.dark-mode .about-overview,
+body.dark-mode .about-mission,
+body.dark-mode .about-values,
+body.dark-mode .about-story,
+body.dark-mode .about-impact,
+body.dark-mode .about-join,
+body.dark-mode .about-methodology {
+    background-color: #1c1c1e;
+}
 
-    .about-mission h2,
-    .about-vision h2,
-    .about-team h2,
-    .about-goals h2,
-    .about-call-to-action h2 {
-        font-size: 1.5rem;
-    }
+body.light-mode .about-overview,
+body.light-mode .about-mission,
+body.light-mode .about-values,
+body.light-mode .about-story,
+body.light-mode .about-impact,
+body.light-mode .about-join,
+body.light-mode .about-methodology {
+    background-color: #f5f5f5;
+    color: #333;
+}
 
-    .about-mission p,
-    .about-vision p,
-    .about-team p,
-    .about-call-to-action p {
-        font-size: 1rem;
-    }
-
-    .about-goals li {
-        font-size: 1rem;
-    }
+body.light-mode .about-overview:hover,
+body.light-mode .about-mission:hover,
+body.light-mode .about-values:hover,
+body.light-mode .about-story:hover,
+body.light-mode .about-impact:hover,
+body.light-mode .about-join:hover,
+body.light-mode .about-methodology:hover {
+    background-color: #e0e0e0;
 }

@@ -80,33 +80,28 @@ h1 {
   width: 100%;
   background-color: var(--primary-color);
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 5px 5%;
-  margin-top: 0;
+  padding: 10px 5%;
   position: relative;
 }
 
-/* Flex container for left and center */
 .nav-left {
-  flex: 1;
-  display: flex;
-  justify-content: flex-start;
+  position: absolute;
+  left: 5%;
 }
 
 .nav-center {
-  flex: 2;
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 20px;
 }
 
-/* Individual link styling */
 .nav-link {
   color: var(--text-color);
   text-decoration: none;
   font-size: 20px;
-  margin: 0 20px;
   transition: color 0.3s ease;
 }
 
@@ -114,20 +109,68 @@ h1 {
   color: var(--link-color);
 }
 
-/* Logo styling remains centered */
 .logo {
   font-size: 50px;
   background: linear-gradient(90deg, var(--accent-color), var(--link-color));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  margin: 0 20px;
 }
 
-/* Ensure all elements are aligned properly */
-.nav-right {
+/* Media query for responsive design */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 10px 5%;
+  }
+
+  .nav-left {
+    position: static;
+    margin-bottom: 10px;
+  }
+
+  .nav-center {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .logo {
+    font-size: 40px;
+    margin: 10px 0;
+  }
+}
+
+/* Remove this if it's not needed anymore */
+/* .nav-right {
   flex: 1;
   display: flex;
   justify-content: flex-end;
   align-items: center;
+} */
+
+/* Add media query for responsive design */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 10px 5%;
+  }
+
+  .nav-left,
+  .nav-center {
+    width: 100%;
+    justify-content: center;
+    margin: 10px 0;
+  }
+
+  .nav-center {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .logo {
+    font-size: 40px;
+    margin: 10px 0;
+  }
 }
 
 /* Updated Video Container for Responsiveness */
@@ -190,7 +233,7 @@ video {
 button {
   font-size: 18px;
   padding: 10px 25px;
-  margin-top: 15px;
+  margin-top: 5px;
   cursor: pointer;
   background: linear-gradient(90deg, var(--accent-color), var(--link-color));
   color: var(--button-text-color);
@@ -360,6 +403,8 @@ body.light-mode .footer a {
     margin: 10px 0;
     width: 100%;
     text-align: center;
+    font-size: 10px;
+
   }
 
   .footer p,

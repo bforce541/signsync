@@ -157,10 +157,10 @@ function App() {
       <div className="App">
         <header className="navbar">
           <div className="nav-left">
-            <Link className="nav-link" to="/">Home</Link> {/* Home link on the left */}
+            <Link className="nav-link" to="/">Home</Link>
           </div>
           <div className="nav-center">
-            <Link className="nav-link" to="/about">About</Link> {/* Centered links */}
+            <Link className="nav-link" to="/about">About</Link>
             <h1 className="logo">SIGNSYNC</h1>
             <a className="nav-link" href="/#">Join Us</a>
           </div>
