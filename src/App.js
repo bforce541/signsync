@@ -1,16 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'; // Link and Routes from React Router
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import io from 'socket.io-client';
 import './App.css';
-import About from './About'; // Import the About component
+import About from './About';
 
 // Initialize the WebSocket connection to the backend
 const socket = io('https://agile-shelf-19406.herokuapp.com', {
   withCredentials: false,
 });
 
+// Function to detect if it's a crawler
+function isCrawler() {
+  const userAgent = navigator.userAgent.toLowerCase();
+  const crawlers = ['googlebot', 'bingbot', 'slurp', 'duckduckbot', 'baiduspider'];
+  return crawlers.some(crawler => userAgent.includes(crawler));
+}
+
 function Home() {
-  // Home page content
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [prediction, setPrediction] = useState({ predicted_label: '', confidence: 0 });
   const [error, setError] = useState(null);
@@ -20,6 +26,15 @@ function Home() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    if (isCrawler()) {
+      document.body.innerHTML = `
+        <h1>SignSync AI</h1>
+        <p>SignSync AI offers real-time sign language translation powered by advanced AI technology. Explore our features and learn more about sign language translation.</p>
+        <a href="https://signsyncai.org">Learn More</a>
+      `;
+      return;
+    }
+
     const savedMode = localStorage.getItem('darkMode');
     if (savedMode === 'true') {
       setDarkMode(true);
@@ -31,53 +46,55 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    console.log('Attempting to connect to socket...');
+    if (!isCrawler()) {
+      console.log('Attempting to connect to socket...');
 
-    socket.on('connect', () => {
-      console.log('Socket connected');
-      setSocketStatus('Connected');
-    });
-
-    socket.on('disconnect', () => {
-      console.log('Socket disconnected');
-      setSocketStatus('Disconnected');
-    });
-
-    socket.on('connect_error', (err) => {
-      console.error('Socket connection error:', err);
-      setSocketStatus('Error: ' + err.message);
-    });
-
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(stream => {
-        console.log('Webcam access granted');
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-      })
-      .catch(err => {
-        console.error("Error accessing the webcam", err);
-        setError("Failed to access webcam. Please ensure you have given permission and try again.");
+      socket.on('connect', () => {
+        console.log('Socket connected');
+        setSocketStatus('Connected');
       });
 
-    socket.on('prediction_result', (data) => {
-      console.log('Received prediction:', data);
-      setPrediction(data);
-      setError(null);
-    });
+      socket.on('disconnect', () => {
+        console.log('Socket disconnected');
+        setSocketStatus('Disconnected');
+      });
 
-    socket.on('error', (errorMessage) => {
-      console.error('Received error from server:', errorMessage);
-      setError(errorMessage.message);
-    });
+      socket.on('connect_error', (err) => {
+        console.error('Socket connection error:', err);
+        setSocketStatus('Error: ' + err.message);
+      });
 
-    return () => {
-      socket.off('connect');
-      socket.off('disconnect');
-      socket.off('connect_error');
-      socket.off('prediction_result');
-      socket.off('error');
-    };
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          console.log('Webcam access granted');
+          if (videoRef.current) {
+            videoRef.current.srcObject = stream;
+          }
+        })
+        .catch(err => {
+          console.error("Error accessing the webcam", err);
+          setError("Failed to access webcam. Please ensure you have given permission and try again.");
+        });
+
+      socket.on('prediction_result', (data) => {
+        console.log('Received prediction:', data);
+        setPrediction(data);
+        setError(null);
+      });
+
+      socket.on('error', (errorMessage) => {
+        console.error('Received error from server:', errorMessage);
+        setError(errorMessage.message);
+      });
+
+      return () => {
+        socket.off('connect');
+        socket.off('disconnect');
+        socket.off('connect_error');
+        socket.off('prediction_result');
+        socket.off('error');
+      };
+    }
   }, []);
 
   const toggleAnalyzing = () => {
@@ -168,8 +185,8 @@ function App() {
 
         {/* Routes for different pages */}
         <Routes>
-          <Route path="/" element={<Home />} /> {/* Home component renders video and analysis */}
-          <Route path="/about" element={<About />} /> {/* About component renders separately */}
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
         </Routes>
 
         <footer className="footer">

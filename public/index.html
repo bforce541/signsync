@@ -40,15 +40,42 @@
   <!-- Robots Meta Tag to Ensure Page Indexing -->
   <meta name="robots" content="index, follow" />
 
+  <!-- Simple Content for Crawlers and Fallback for No-JS Users -->
+  <noscript>
+    <h1>SignSync AI</h1>
+    <p>SignSync AI offers real-time sign language translation powered by cutting-edge AI technology. Translate sign
+      language to text with high accuracy and ease.</p>
+    <a href="https://signsyncai.org">Learn More</a>
+  </noscript>
+
   <title>SignSync AI - Real-Time Sign Language Translation</title>
 </head>
 
 <body>
-  <noscript>
-    <p>SignSync AI is a real-time sign language translation tool powered by cutting-edge AI technology. Explore how we
-      bring sign language to text with high accuracy.</p>
-  </noscript>
   <div id="root"></div>
+
+  <!-- Include your bundle.js for React rendering -->
+  <script src="/static/js/bundle.js"></script>
+
+  <script>
+    // Detect if the crawler is visiting and show static content if needed
+    function isCrawler() {
+      const userAgent = navigator.userAgent.toLowerCase();
+      const crawlers = ['googlebot', 'bingbot', 'slurp', 'duckduckbot', 'baiduspider'];
+      return crawlers.some(crawler => userAgent.includes(crawler));
+    }
+
+    if (isCrawler()) {
+      document.body.innerHTML = `
+        <h1>SignSync AI</h1>
+        <p>SignSync AI offers real-time sign language translation with cutting-edge AI technology.</p>
+        <a href="https://signsyncai.org">Learn More</a>
+      `;
+    } else {
+      // Initialize your full React app
+      document.getElementById('root').innerHTML = '<div>Loading...</div>';
+    }
+  </script>
 </body>
 
 </html>
