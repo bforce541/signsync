@@ -1,13 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import io from 'socket.io-client';
 import './App.css';
 import About from './About';
-
-// Initialize the WebSocket connection to the backend (simulate "server down")
-const socket = io('https://agile-shelf-19406.herokuapp.com', {
-  withCredentials: false,
-});
 
 // Function to detect if it's a crawler
 function isCrawler() {
@@ -47,23 +41,9 @@ function Home() {
 
   useEffect(() => {
     if (!isCrawler()) {
-      console.log('Attempting to connect to socket...');
+      console.log('Skipping WebSocket connection due to server simulation.');
 
-      socket.on('connect', () => {
-        console.log('Socket connected');
-        setSocketStatus('Connected');
-      });
-
-      socket.on('disconnect', () => {
-        console.log('Socket disconnected');
-        setSocketStatus('Disconnected');
-      });
-
-      socket.on('connect_error', (err) => {
-        console.error('Socket connection error:', err);
-        setSocketStatus('Error: ' + err.message);
-      });
-
+      // Access the webcam
       navigator.mediaDevices.getUserMedia({ video: true })
         .then(stream => {
           console.log('Webcam access granted');
@@ -76,6 +56,8 @@ function Home() {
           setError("Failed to access webcam. Please ensure you have given permission and try again.");
         });
 
+      // Commented out WebSocket code (not needed temporarily)
+      /*
       socket.on('prediction_result', (data) => {
         console.log('Received prediction:', data);
         setPrediction(data);
@@ -86,14 +68,8 @@ function Home() {
         console.error('Received error from server:', errorMessage);
         setError(errorMessage.message);
       });
+      */
 
-      return () => {
-        socket.off('connect');
-        socket.off('disconnect');
-        socket.off('connect_error');
-        socket.off('prediction_result');
-        socket.off('error');
-      };
     }
   }, []);
 
@@ -107,27 +83,6 @@ function Home() {
       console.log('Stopping analysis');
     }
   };
-
-  useEffect(() => {
-    let intervalId;
-    if (isAnalyzing) {
-      intervalId = setInterval(() => {
-        const canvas = canvasRef.current;
-        const video = videoRef.current;
-        if (canvas && video) {
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-          canvas.getContext('2d').drawImage(video, 0, 0);
-          const imageData = canvas.toDataURL('image/jpeg');
-          console.log('Sending frame to server (but server is down)');
-          socket.emit('analyze_frame', imageData);  // Simulate sending to backend
-        }
-      }, 1000); // 1-second interval for frame analysis
-    }
-    return () => {
-      if (intervalId) clearInterval(intervalId);
-    };
-  }, [isAnalyzing]);
 
   const toggleTheme = () => {
     setDarkMode(!darkMode);
