@@ -9,11 +9,9 @@ import base64
 
 app = Flask(__name__)
 
-# Allow CORS for your S3 frontend
-CORS(app, resources={r"/*": {"origins": "https://ssfrontend-dd34f5fd2abc.herokuapp.com"}})
+CORS(app, resources={r"/*": {"origins": "https://signsyncai.org"}})
+socketio = SocketIO(app, cors_allowed_origins="https://signsyncai.org", transports=['websocket', 'polling'])
 
-# Initialize SocketIO with CORS allowed for the S3 frontend origin and WebSocket transports
-socketio = SocketIO(app, cors_allowed_origins="https://ssfrontend-dd34f5fd2abc.herokuapp.com", transports=['websocket', 'polling'])
 
 # Load the TensorFlow ASL model
 model = tf.keras.models.load_model('./model/asl_model.h5')
