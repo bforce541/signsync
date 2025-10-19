@@ -39,7 +39,3 @@ Evaluation achieved a validation accuracy of **95%+** with strong generalization
 - npm or yarn
 - TensorFlow and Flask installed locally
 
-### Clone the Repository
-```bash
-git clone https://github.com/bforce541/signsync.git
-cd signsync
