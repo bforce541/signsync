@@ -1,77 +1,84 @@
-import React from 'react';
-import './About.css';
+import React from "react";
+
+const capabilities = [
+  "Live webcam translation with a TensorFlow inference backend and REST/WebSocket delivery.",
+  "Transfer-learning training pipeline with ResNet50, VGG16, InceptionV3, and MobileNetV2 backbones.",
+  "Responsive React + Tailwind interface tuned for desktop and mobile use.",
+];
+
+const roadmap = [
+  "Expand beyond alphabet classification into phrase-level decoding and temporal gesture modeling.",
+  "Add curated dataset versioning, formal benchmarking, and downloadable evaluation reports.",
+  "Harden production deployment for AWS with environment-specific model routing and observability.",
+];
 
 function About() {
-    return (
-        <div className="about-container">
-            <h1 className="about-header">About SignSync</h1> {/* Updated class for new style */}
-            <div className="about-content">
-                {/* SignSync Info */}
-                <section className="about-overview">
-                    <p>
-                        SignSync is a groundbreaking web-based application dedicated to bridging communication gaps between hearing and Deaf communities. Inspired by a desire to connect people across linguistic barriers, SignSync is more than just a technical solution—it’s a mission to create an accessible world where everyone can communicate freely. With rapid advancements in technology, our goal is to make real-time sign language translation accessible to everyone, empowering individuals to engage without limitations.
-                    </p>
-                </section>
+  return (
+    <main className="section-shell pb-20 pt-10 sm:pb-24 sm:pt-14">
+      <section className="panel-shell relative overflow-hidden px-6 py-10 sm:px-10 sm:py-12">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(109,184,255,0.18),_transparent_30%),radial-gradient(circle_at_bottom_left,_rgba(255,145,102,0.16),_transparent_28%)]" />
+        <div className="relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="space-y-5">
+            <span className="inline-flex rounded-full border border-signal/30 bg-signal/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-signal">
+              Mission
+            </span>
+            <h1 className="max-w-3xl font-serif text-4xl leading-tight text-white sm:text-5xl">
+              Build an ASL translator that is technically credible, fast in the browser, and usable in the real world.
+            </h1>
+            <p className="max-w-2xl text-base leading-7 text-slate-200 sm:text-lg">
+              SignSync exists to reduce communication friction between Deaf and hearing users through live ASL-to-text translation.
+              The platform combines modern frontend ergonomics with a TensorFlow model pipeline designed for transfer learning and rapid iteration.
+            </p>
+          </div>
 
-                {/* Our Mission */}
-                <section className="about-mission">
-                    <h2>Our Mission</h2>
-                    <p>
-                        At SignSync, our mission is to transform the way people communicate by providing an easy-to-use, intuitive platform that translates American Sign Language (ASL) into text. We believe that every person, regardless of language or hearing ability, should have access to tools that enable seamless interaction. Our commitment is to break down barriers and foster inclusivity.
-                    </p>
-                </section>
-
-                {/* Our Impact */}
-                <section className="about-impact">
-                    <h2>Our Impact</h2>
-                    <p>
-                        Since our inception, SignSync has garnered attention from educational institutions, nonprofits, and forward-thinking organizations. Our platform has reached over <strong>100,000 users globally</strong>, helping to make communication more inclusive and accessible. We are proud to partner with key companies and advocates in the Deaf community, continuously striving to ensure that language is never a barrier to connection.
-                    </p>
-                    <p>
-                        Through our partnerships, SignSync has made an impact in classrooms, community centers, and workplaces. Whether it’s enabling more effective communication in schools or providing real-time translations in professional settings, every interaction brings us closer to a more inclusive world.
-                    </p>
-                </section>
-
-                {/* Our Story */}
-                <section className="about-story">
-                    <h2>Our Story</h2>
-                    <p>
-                        What began as a high school project, inspired by a personal desire to bridge communication gaps in the community, quickly evolved into something much larger. Founded by a group of tech enthusiasts, SignSync started as a mission to address a real-world challenge. Over time, it became clear that the need for accessible, real-time sign language translation extended far beyond our local community. Today, SignSync continues to grow, with plans to expand its reach to multiple languages and regional sign dialects, ensuring that communication is accessible to everyone, everywhere.
-                    </p>
-                </section>
-
-                {/* Our Methodology */}
-                <section className="about-methodology">
-                    <h2>Our Methodology</h2>
-                    <p>
-                        At SignSync, we use advanced machine learning techniques to deliver high-quality, real-time sign language translation. Our AI model has been trained on over <strong>80,000 images</strong> to ensure accuracy in interpreting American Sign Language. Through this rigorous process, we have achieved <strong>95% accuracy</strong> in our translations, all while maintaining a response time of less than one second per frame.
-                    </p>
-                    <p>
-                        We continuously improve our models by incorporating new data and community feedback, ensuring that SignSync stays at the forefront of translation technology. Our commitment to innovation means we are always exploring new ways to enhance the user experience and expand the range of languages and dialects we support.
-                    </p>
-                </section>
-
-                {/* Core Values */}
-                <section className="about-values">
-                    <h2>Core Values</h2>
-                    <ul>
-                        <li><strong>Innovation:</strong> Using cutting-edge AI models, we strive to push the boundaries of real-time translation technology.</li>
-                        <li><strong>Inclusivity:</strong> Our platform is designed with accessibility in mind, ensuring that everyone, regardless of background, can use it effectively.</li>
-                        <li><strong>Empowerment:</strong> We aim to empower the Deaf and hearing communities by creating tools that allow them to connect without limitations.</li>
-                    </ul>
-                </section>
-
-                {/* Join Us */}
-                <section className="about-join">
-                    <h2>Join Us</h2>
-                    <p>
-                        We are always looking for contributors to help expand our dataset and improve the accuracy of our AI models. If you're passionate about bridging communication gaps and have expertise in AI, linguistics, or data science, we would love to hear from you. Together, we can make a difference.
-                    </p>
-                    <a href="https://forms.gle/vdX9KEm1Z4HhUfkFA" className="join-link">Contribute to SignSync</a>
-                </section>
+          <div className="grid gap-4 rounded-[24px] border border-white/10 bg-slate/60 p-5">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-aurora">Architecture</p>
+              <p className="mt-2 text-sm leading-6 text-slate-200">
+                React and Tailwind power the interface, while Flask, TensorFlow, and Socket.IO handle model inference and live prediction transport.
+              </p>
             </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-aurora">Model Strategy</p>
+              <p className="mt-2 text-sm leading-6 text-slate-200">
+                The repo now includes a configurable transfer-learning training flow covering ResNet50, VGG16, InceptionV3, and MobileNetV2.
+              </p>
+            </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-aurora">Current Scope</p>
+              <p className="mt-2 text-sm leading-6 text-slate-200">
+                The live translator is optimized for alphabet recognition with transcript capture, confidence scoring, and cross-device responsiveness.
+              </p>
+            </div>
+          </div>
         </div>
-    );
+      </section>
+
+      <section className="mt-10 grid gap-6 lg:grid-cols-2">
+        <div className="panel-shell px-6 py-8 sm:px-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-ember">What’s in the product</p>
+          <div className="mt-5 space-y-4">
+            {capabilities.map((item) => (
+              <div key={item} className="rounded-2xl border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-slate-200">
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="panel-shell px-6 py-8 sm:px-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-signal">Forward path</p>
+          <div className="mt-5 space-y-4">
+            {roadmap.map((item) => (
+              <div key={item} className="rounded-2xl border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-slate-200">
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
+  );
 }
 
 export default About;

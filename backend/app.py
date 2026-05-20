@@ -1,60 +1,116 @@
-from flask import Flask
+import os
+from datetime import datetime, timezone
+
+from flask import Flask, request
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
-import numpy as np
-from PIL import Image
-import io
-import base64
+
+from asl_service import get_model_summary, predict_from_data_url
+
+FRONTEND_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv(
+        "FRONTEND_ORIGINS",
+        "http://localhost:3000,http://127.0.0.1:3000,http://localhost:3001,http://127.0.0.1:3001,http://localhost:5173,http://127.0.0.1:5173,https://signsyncai.org",
+    ).split(",")
+    if origin.strip()
+]
 
 app = Flask(__name__)
+app.config["JSON_SORT_KEYS"] = False
+CORS(app, resources={r"/api/*": {"origins": FRONTEND_ORIGINS}, r"/health": {"origins": FRONTEND_ORIGINS}})
+socketio = SocketIO(
+    app,
+    async_mode=os.getenv("SOCKETIO_ASYNC_MODE"),
+    cors_allowed_origins=FRONTEND_ORIGINS,
+    transports=["websocket", "polling"],
+)
 
-# Allow CORS for the frontend
-CORS(app, resources={r"/*": {"origins": "https://signsyncai.org"}})
 
-# Simulate server down by allowing WebSocket connections but not processing the data
-socketio = SocketIO(app, cors_allowed_origins="https://signsyncai.org", transports=['websocket', 'polling'])
+def now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat()
 
-# Commented out the TensorFlow ASL model loading as part of server simulation
-# model = tf.keras.models.load_model('./model/asl_model.h5')
-# print("Model loaded successfully")
 
-# Class labels for ASL (can be retained for future use)
-class_labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+def prediction_payload(image_data: str) -> dict[str, object]:
+    prediction = predict_from_data_url(image_data)
+    return {
+        "predicted_label": prediction.label,
+        "confidence": prediction.confidence,
+        "top_predictions": prediction.top_predictions,
+        "timestamp": now_iso(),
+    }
 
-# Simulated image processing function that does not actually process the image
-def process_image(image_data):
+
+@app.get("/")
+def index() -> tuple[dict[str, object], int]:
+    return {
+        "name": "SignSync API",
+        "status": "ok",
+        "endpoints": ["/health", "/api/health", "/api/model-info", "/api/predict"],
+    }, 200
+
+
+@app.get("/health")
+@app.get("/api/health")
+def health_check() -> tuple[dict[str, object], int]:
     try:
-        # Simulated return value indicating server issues
-        return 'Waiting...', 'N/A'
-    except Exception as e:
-        print(f"Error processing image: {str(e)}")
-        return None, None
+        model_info_payload = get_model_summary()
+        model_loaded = True
+        class_count = model_info_payload["class_count"]
+    except Exception:
+        model_loaded = False
+        class_count = 0
 
-# WebSocket event for analyzing frames (simulate server down behavior)
-@socketio.on('analyze_frame')
-def handle_frame(frame_data):
-    # No real processing happening here, simulating server issues
-    print("Simulating server down; cannot process the frame.")
-    emit('prediction_result', {
-        'predicted_label': 'Waiting...',
-        'confidence': 'N/A'
-    })
+    return {
+        "status": "ok",
+        "timestamp": now_iso(),
+        "model_loaded": model_loaded,
+        "class_count": class_count,
+        "frontend_origins": FRONTEND_ORIGINS,
+    }, 200
 
-# WebSocket event for client connection
-@socketio.on('connect')
-def handle_connect():
-    print('Client connected')
 
-# WebSocket event for client disconnection
-@socketio.on('disconnect')
-def handle_disconnect():
-    print('Client disconnected')
+@app.get("/api/model-info")
+def model_info() -> tuple[dict[str, object], int]:
+    return get_model_summary(), 200
 
-# Basic health check route to keep the server alive and healthy
-@app.route('/health')
-def health_check():
-    return 'OK', 200
 
-# Running the Flask server with SocketIO
-if __name__ == '__main__':
-    socketio.run(app, debug=False, host='0.0.0.0', port=8080)
+@app.post("/api/predict")
+def predict() -> tuple[dict[str, object], int]:
+    payload = request.get_json(silent=True) or {}
+    image_data = payload.get("image")
+    if not image_data:
+        return {"error": "Missing 'image' field in request body."}, 400
+
+    try:
+        return prediction_payload(image_data), 200
+    except Exception as exc:
+        return {"error": str(exc)}, 500
+
+
+@socketio.on("connect")
+def handle_connect() -> None:
+    emit("connection_status", {"status": "connected", "timestamp": now_iso()})
+
+
+@socketio.on("analyze_frame")
+def handle_frame(frame_data: dict[str, object]) -> None:
+    image_data = frame_data.get("image") if isinstance(frame_data, dict) else None
+    if not image_data:
+        emit("prediction_error", {"error": "Missing image payload."})
+        return
+
+    try:
+        emit("prediction_result", prediction_payload(str(image_data)))
+    except Exception as exc:
+        emit("prediction_error", {"error": str(exc)})
+
+
+@socketio.on("disconnect")
+def handle_disconnect() -> None:
+    return None
+
+
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", "8080"))
+    socketio.run(app, debug=False, host="0.0.0.0", port=port, allow_unsafe_werkzeug=True)

@@ -1,5 +1,6 @@
 # Ignore virtual environments
 venv/
+.venv/
 
 # Ignore node_modules (for frontend)
 node_modules/

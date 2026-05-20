@@ -1,99 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#000000" />
-
-  <!-- Updated Meta Description for SEO -->
-  <meta name="description"
-    content="SignSync AI – A real-time sign language translation tool powered by AI. Translate sign language to text with high accuracy and ease." />
-
-  <!-- SEO Keywords -->
-  <meta name="keywords"
-    content="SignSyncAI, SignSync, SignSync AI, SignSync, sign language translation, AI, machine learning, sign-to-text, real-time translation, SignSync real-time translation sign language" />
-
-  <!-- Open Graph (OG) Meta Tags for Social Media Preview -->
-  <meta property="og:title" content="SignSync AI - Sign Language Translation" />
-  <meta property="og:description"
-    content="SignSync AI uses advanced AI technology for real-time sign language translation. Translate sign language to text with ease." />
-  <meta property="og:image" content="%PUBLIC_URL%/og-image.jpg" /> <!-- Replace with your image -->
+  <meta name="theme-color" content="#07111f" />
+  <meta
+    name="description"
+    content="SignSync translates American Sign Language gestures into text with a real-time React interface and TensorFlow-powered backend."
+  />
+  <meta
+    name="keywords"
+    content="ASL translator, American Sign Language, sign to text, TensorFlow, React, Flask, accessibility, SignSync"
+  />
+  <meta property="og:title" content="SignSync | Real-Time ASL Translation" />
+  <meta
+    property="og:description"
+    content="Real-time ASL-to-text translation with a polished webcam interface, live confidence scoring, and transfer-learning powered inference."
+  />
+  <meta property="og:image" content="%PUBLIC_URL%/logo512.png" />
   <meta property="og:url" content="https://signsyncai.org" />
   <meta property="og:type" content="website" />
-
-  <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="SignSync AI - Sign Language Translation" />
-  <meta name="twitter:description"
-    content="A cutting-edge AI-powered tool for real-time sign language translation. Translate sign language to text effortlessly." />
-  <meta name="twitter:image" content="%PUBLIC_URL%/twitter-image.jpg" /> <!-- Replace with your image -->
-
-  <!-- Apple Touch Icon and Manifest -->
+  <meta name="twitter:title" content="SignSync | Real-Time ASL Translation" />
+  <meta
+    name="twitter:description"
+    content="Translate ASL gestures into text with live confidence, transcript capture, and responsive React + Tailwind design."
+  />
+  <meta name="twitter:image" content="%PUBLIC_URL%/logo512.png" />
   <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-
-  <!-- Canonical Tag for SEO -->
   <link rel="canonical" href="https://signsyncai.org" />
-
-  <!-- Robots Meta Tag to Ensure Page Indexing -->
   <meta name="robots" content="index, follow" />
-
-  <!-- Simple Content for Crawlers and Fallback for No-JS Users -->
-  <noscript>
-    <h1>Welcome to SignSync AI</h1>
-    <p>SignSync AI is a cutting-edge platform designed to translate sign language into text using advanced AI
-      technology.
-      Learn how we are bridging the communication gap for the hearing-impaired community. Our real-time translation tool
-      offers high accuracy, ease of use, and ongoing improvements with contributions from the community.</p>
-    <h2>Features</h2>
-    <ul>
-      <li>Real-time ASL to text translation</li>
-      <li>Accurate predictions using machine learning models</li>
-      <li>Community contributions for continuous improvements</li>
-      <li>User-friendly interface</li>
-    </ul>
-    <a href="https://signsyncai.org">Learn More</a>
-  </noscript>
-
-  <title>SignSync AI - Real-Time Sign Language Translation</title>
+  <title>SignSync | AI-Powered ASL Translator</title>
 </head>
-
 <body>
+  <noscript>SignSync requires JavaScript to access the webcam, run live translation, and display predictions.</noscript>
   <div id="root"></div>
-
-  <!-- Include your bundle.js for React rendering -->
-  <script src="/static/js/bundle.js"></script>
-
-  <script>
-    // Detect if the crawler is visiting and show static content if needed
-    function isCrawler() {
-      const userAgent = navigator.userAgent.toLowerCase();
-      const crawlers = ['googlebot', 'bingbot', 'slurp', 'duckduckbot', 'baiduspider'];
-      return crawlers.some(crawler => userAgent.includes(crawler));
-    }
-
-    if (isCrawler()) {
-      document.body.innerHTML = `
-        <h1>Welcome to SignSync AI</h1>
-        <p>SignSync AI is a cutting-edge platform designed to translate sign language into text using advanced AI technology. 
-           Learn how we are bridging the communication gap for the hearing-impaired community. Our real-time translation tool 
-           offers high accuracy, ease of use, and ongoing improvements with contributions from the community.</p>
-        <h2>Features</h2>
-        <ul>
-          <li>Real-time ASL to text translation</li>
-          <li>Accurate predictions using machine learning models</li>
-          <li>Community contributions for continuous improvements</li>
-          <li>User-friendly interface</li>
-        </ul>
-        <a href="https://signsyncai.org">Learn More</a>
-      `;
-    } else {
-      // Initialize your full React app
-      document.getElementById('root').innerHTML = '<div>Loading...</div>';
-    }
-  </script>
 </body>
-
 </html>
