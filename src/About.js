@@ -1,52 +1,49 @@
 import React from "react";
 
 const capabilities = [
-  "Live webcam translation with a TensorFlow inference backend and REST/WebSocket delivery.",
-  "Transfer-learning training pipeline with ResNet50, VGG16, InceptionV3, and MobileNetV2 backbones.",
-  "Responsive React + Tailwind interface tuned for desktop and mobile use.",
+  "Live webcam translation backed by TensorFlow inference and delivered over REST or Socket.IO.",
+  "A configurable transfer-learning pipeline covering ResNet50, VGG16, InceptionV3, and MobileNetV2.",
+  "A responsive interface that keeps the translator, transcript, and confidence feedback easy to read.",
 ];
 
 const roadmap = [
-  "Expand beyond alphabet classification into phrase-level decoding and temporal gesture modeling.",
-  "Add curated dataset versioning, formal benchmarking, and downloadable evaluation reports.",
-  "Harden production deployment for AWS with environment-specific model routing and observability.",
+  "Expand from alphabet recognition into phrase-level translation and temporal gesture modeling.",
+  "Add stronger dataset versioning, evaluation reporting, and benchmark visibility.",
+  "Harden production deployment for AWS with better environment and observability controls.",
 ];
 
 function About() {
   return (
-    <main className="section-shell pb-20 pt-10 sm:pb-24 sm:pt-14">
-      <section className="panel-shell relative overflow-hidden px-6 py-10 sm:px-10 sm:py-12">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(109,184,255,0.18),_transparent_30%),radial-gradient(circle_at_bottom_left,_rgba(255,145,102,0.16),_transparent_28%)]" />
-        <div className="relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+    <main className="section-shell pb-16 pt-8 sm:pb-20 sm:pt-12">
+      <section className="panel-shell px-6 py-8 sm:px-10 sm:py-10">
+        <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="space-y-5">
-            <span className="inline-flex rounded-full border border-signal/30 bg-signal/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-signal">
-              Mission
-            </span>
-            <h1 className="max-w-3xl font-serif text-4xl leading-tight text-white sm:text-5xl">
-              Build an ASL translator that is technically credible, fast in the browser, and usable in the real world.
+            <p className="soft-label">About SignSync</p>
+            <h1 className="max-w-3xl font-serif text-4xl leading-tight text-ink sm:text-5xl">
+              A cleaner path from live ASL gestures to readable text.
             </h1>
-            <p className="max-w-2xl text-base leading-7 text-slate-200 sm:text-lg">
+            <p className="max-w-2xl text-base leading-7 text-slate sm:text-lg">
               SignSync exists to reduce communication friction between Deaf and hearing users through live ASL-to-text translation.
-              The platform combines modern frontend ergonomics with a TensorFlow model pipeline designed for transfer learning and rapid iteration.
+              The project combines a practical browser interface with a TensorFlow pipeline that can keep improving as the dataset and models mature.
             </p>
           </div>
 
-          <div className="grid gap-4 rounded-[24px] border border-white/10 bg-slate/60 p-5">
+          <div className="rounded-[20px] border border-black/5 bg-[#fbfaf7] p-6">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-aurora">Architecture</p>
-              <p className="mt-2 text-sm leading-6 text-slate-200">
+              <p className="soft-label">Architecture</p>
+              <p className="mt-2 text-sm leading-6 text-slate">
                 React and Tailwind power the interface, while Flask, TensorFlow, and Socket.IO handle model inference and live prediction transport.
               </p>
             </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-aurora">Model Strategy</p>
-              <p className="mt-2 text-sm leading-6 text-slate-200">
+            <div className="mt-5">
+              <p className="soft-label">Model Strategy</p>
+              <p className="mt-2 text-sm leading-6 text-slate">
                 The repo now includes a configurable transfer-learning training flow covering ResNet50, VGG16, InceptionV3, and MobileNetV2.
               </p>
             </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-aurora">Current Scope</p>
-              <p className="mt-2 text-sm leading-6 text-slate-200">
+            <div className="mt-5">
+              <p className="soft-label">Current Scope</p>
+              <p className="mt-2 text-sm leading-6 text-slate">
                 The live translator is optimized for alphabet recognition with transcript capture, confidence scoring, and cross-device responsiveness.
               </p>
             </div>
@@ -54,12 +51,12 @@ function About() {
         </div>
       </section>
 
-      <section className="mt-10 grid gap-6 lg:grid-cols-2">
+      <section className="mt-8 grid gap-6 lg:grid-cols-2">
         <div className="panel-shell px-6 py-8 sm:px-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-ember">What’s in the product</p>
+          <p className="soft-label">What’s in the product</p>
           <div className="mt-5 space-y-4">
             {capabilities.map((item) => (
-              <div key={item} className="rounded-2xl border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-slate-200">
+              <div key={item} className="rounded-2xl border border-black/5 bg-[#fbfaf7] px-4 py-4 text-sm leading-6 text-slate">
                 {item}
               </div>
             ))}
@@ -67,10 +64,10 @@ function About() {
         </div>
 
         <div className="panel-shell px-6 py-8 sm:px-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-signal">Forward path</p>
+          <p className="soft-label">Forward path</p>
           <div className="mt-5 space-y-4">
             {roadmap.map((item) => (
-              <div key={item} className="rounded-2xl border border-white/8 bg-white/5 px-4 py-4 text-sm leading-6 text-slate-200">
+              <div key={item} className="rounded-2xl border border-black/5 bg-[#fbfaf7] px-4 py-4 text-sm leading-6 text-slate">
                 {item}
               </div>
             ))}

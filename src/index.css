@@ -10,11 +10,11 @@
   }
 
   body {
-    @apply m-0 bg-ink font-sans text-frost antialiased;
+    @apply m-0 bg-frost font-sans text-ink antialiased;
     background-image:
-      radial-gradient(circle at top left, rgba(109, 184, 255, 0.18), transparent 28%),
-      radial-gradient(circle at 85% 8%, rgba(87, 242, 199, 0.16), transparent 18%),
-      linear-gradient(180deg, #07111f 0%, #091725 48%, #06101d 100%);
+      radial-gradient(circle at top left, rgba(59, 130, 246, 0.08), transparent 24%),
+      radial-gradient(circle at 85% 5%, rgba(45, 106, 79, 0.06), transparent 18%),
+      linear-gradient(180deg, #f7f4ee 0%, #f4efe6 100%);
   }
 
   * {
@@ -22,24 +22,21 @@
   }
 
   ::selection {
-    background: rgba(87, 242, 199, 0.32);
-    color: #ffffff;
+    background: rgba(59, 130, 246, 0.18);
+    color: #111827;
   }
 }
 
 @layer components {
   .panel-shell {
-    @apply rounded-[28px] border border-white/10 bg-white/5 shadow-halo backdrop-blur;
+    @apply rounded-[24px] border border-black/5 bg-white shadow-halo;
   }
 
   .section-shell {
-    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
   }
 
-  .signal-grid {
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 48px 48px;
+  .soft-label {
+    @apply text-[11px] font-semibold uppercase tracking-[0.22em] text-slate;
   }
 }

@@ -40,8 +40,8 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
-test("renders the translator hero", () => {
+test("renders the translator hero", async () => {
   render(<App />);
-  expect(screen.getByText(/translate asl in real time/i)).toBeInTheDocument();
+  expect(await screen.findByText(/real-time asl translation without the extra visual noise/i)).toBeInTheDocument();
   expect(screen.getByTestId("mock-webcam")).toBeInTheDocument();
 });

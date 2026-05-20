@@ -12,40 +12,26 @@ const DEFAULT_PREDICTION = {
   top_predictions: [],
   timestamp: null,
 };
-const QUICK_STATS = [
-  { label: "Interface", value: "React + Tailwind" },
-  { label: "Backend", value: "Flask + TensorFlow" },
-  { label: "Transport", value: "REST + Socket.IO" },
-];
-const FEATURE_CARDS = [
-  {
-    title: "Real-Time Translation",
-    copy: "Capture live webcam frames, route them to the model, and surface the best ASL letter prediction with confidence in under a second.",
-  },
-  {
-    title: "Confidence-Aware Transcript",
-    copy: "Build words from stable predictions, then refine them with one-tap controls for space, backspace, and copy.",
-  },
-  {
-    title: "Transfer-Learning Backbone",
-    copy: "The inference service ships with a working classifier and a training pipeline for ResNet50, VGG16, InceptionV3, and MobileNetV2.",
-  },
+const OVERVIEW_POINTS = [
+  "Live webcam capture routed to the backend classifier.",
+  "Confidence-aware transcript editing with simple controls.",
+  "Real model inference over REST and Socket.IO.",
 ];
 
 function statusClasses(status) {
   if (status === "Connected") {
-    return "border-signal/40 bg-signal/10 text-signal";
+    return "border-signal/20 bg-green-50 text-signal";
   }
   if (status === "Analyzing") {
-    return "border-aurora/40 bg-aurora/10 text-aurora";
+    return "border-aurora/20 bg-blue-50 text-aurora";
   }
-  return "border-ember/40 bg-ember/10 text-amber-100";
+  return "border-ember/20 bg-orange-50 text-ember";
 }
 
 function StatusChip({ label, value }) {
   return (
-    <div className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium tracking-[0.18em] text-slate-200">
-      <span className="mr-2 text-white">{label}</span>
+    <div className="rounded-full border border-black/5 bg-[#fbfaf7] px-3 py-2 text-xs font-medium tracking-[0.16em] text-slate">
+      <span className="mr-2 text-ink">{label}</span>
       {value}
     </div>
   );
@@ -313,120 +299,109 @@ function Home() {
   const lastUpdated = prediction.timestamp ? new Date(prediction.timestamp).toLocaleTimeString() : "Waiting for signal";
 
   return (
-    <main className="pb-20">
+    <main className="pb-16">
       <section className="section-shell pt-6 sm:pt-10">
-        <div className="panel-shell signal-grid relative overflow-hidden px-6 py-8 sm:px-8 lg:px-10">
-          <div className="absolute -left-12 top-10 h-32 w-32 rounded-full bg-aurora/20 blur-3xl" />
-          <div className="absolute bottom-0 right-0 h-40 w-40 rounded-full bg-signal/15 blur-3xl" />
-
-          <div className="relative grid gap-10 lg:grid-cols-[1fr_0.95fr] lg:items-center">
-            <div className="animate-reveal space-y-6">
-              <div className="inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-signal">
-                AI-Powered American Sign Language Translator
-              </div>
-              <div className="space-y-4">
-                <h1 className="max-w-3xl font-serif text-4xl leading-tight text-white sm:text-5xl lg:text-6xl">
-                  Translate ASL in real time with a faster interface and a real model behind it.
-                </h1>
-                <p className="max-w-2xl text-base leading-7 text-slate-200 sm:text-lg">
-                  SignSync captures live hand gestures, runs TensorFlow inference through Flask, and turns confident predictions
-                  into a running transcript you can refine in place.
-                </p>
-              </div>
-
-              <div className="flex flex-wrap gap-3">
-                <StatusChip label="API" value={healthStatus} />
-                <StatusChip label="Socket" value={socketStatus} />
-                <StatusChip label="Model" value="26 ASL classes" />
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-3">
-                {QUICK_STATS.map((stat, index) => (
-                  <div
-                    key={stat.label}
-                    className="rounded-[22px] border border-white/10 bg-slate/60 px-4 py-5 shadow-halo"
-                    style={{ animationDelay: `${index * 100}ms` }}
-                  >
-                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-aurora">{stat.label}</p>
-                    <p className="mt-2 text-lg font-semibold text-white">{stat.value}</p>
-                  </div>
-                ))}
-              </div>
+        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+          <div className="space-y-6">
+            <div className="space-y-4">
+              <p className="soft-label">AI-Powered ASL Translator</p>
+              <h1 className="max-w-2xl font-serif text-4xl leading-tight text-ink sm:text-5xl">
+                Real-time ASL translation without the extra visual noise.
+              </h1>
+              <p className="max-w-xl text-base leading-7 text-slate sm:text-lg">
+                SignSync captures live gestures, sends frames to the model, and turns confident predictions into an editable transcript.
+              </p>
             </div>
 
-            <div className="animate-drift">
-              <div className="rounded-[32px] border border-white/10 bg-slate/70 p-4 shadow-halo sm:p-5">
-                <div className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[#030c16]">
-                  <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between border-b border-white/10 bg-black/30 px-4 py-3 backdrop-blur">
-                    <span className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${statusClasses(isAnalyzing ? "Analyzing" : socketStatus)}`}>
-                      {isAnalyzing ? "Analyzing" : socketStatus}
+            <div className="flex flex-wrap gap-3">
+              <StatusChip label="API" value={healthStatus} />
+              <StatusChip label="Socket" value={socketStatus} />
+              <StatusChip label="Model" value="26 classes" />
+            </div>
+
+            <div className="panel-shell px-6 py-6">
+              <p className="soft-label">How it works</p>
+              <div className="mt-4 space-y-3">
+                {OVERVIEW_POINTS.map((point) => (
+                  <p key={point} className="border-l-2 border-slate-200 pl-4 text-sm leading-6 text-slate">
+                    {point}
+                  </p>
+                ))}
+              </div>
+
+              <div className="mt-6 rounded-[18px] bg-[#fbfaf7] p-5">
+                <p className="soft-label">Current prediction</p>
+                <div className="mt-2 flex items-end gap-3">
+                  <span className="font-serif text-5xl text-ink">{prediction.predicted_label}</span>
+                  <span className="pb-2 text-sm text-slate">{confidencePercent} confidence</span>
+                </div>
+                <p className="mt-2 text-sm text-slate">Updated {lastUpdated}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="panel-shell overflow-hidden">
+            <div className="flex items-center justify-between border-b border-black/5 px-5 py-4">
+              <div>
+                <p className="soft-label">Translator</p>
+                <p className="mt-1 text-sm text-slate">Keep your hand inside the guide box for the cleanest frame.</p>
+              </div>
+              <span className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] ${statusClasses(isAnalyzing ? "Analyzing" : socketStatus)}`}>
+                {isAnalyzing ? "Analyzing" : socketStatus}
+              </span>
+            </div>
+
+            <div className="relative aspect-square bg-[#1f2933]">
+              <Webcam
+                ref={webcamRef}
+                audio={false}
+                mirrored
+                screenshotFormat="image/jpeg"
+                screenshotQuality={0.9}
+                videoConstraints={{ facingMode: "user", width: 720, height: 720 }}
+                onUserMedia={() => setError("")}
+                onUserMediaError={() => setError("Camera access is required for live translation.")}
+                className="h-full w-full object-cover"
+              />
+              <div className="pointer-events-none absolute inset-0 p-6">
+                <div className="h-full rounded-[28px] border border-dashed border-white/50">
+                  <div className="mx-auto mt-[20%] flex h-[42%] w-[42%] items-center justify-center rounded-[24px] border border-white/70 bg-black/10">
+                    <span className="px-5 text-center text-xs font-semibold uppercase tracking-[0.2em] text-white">
+                      Signing area
                     </span>
-                    <span className="text-xs uppercase tracking-[0.2em] text-slate-300">Live camera</span>
-                  </div>
-
-                  <div className="relative aspect-square bg-black">
-                    <Webcam
-                      ref={webcamRef}
-                      audio={false}
-                      mirrored
-                      screenshotFormat="image/jpeg"
-                      screenshotQuality={0.9}
-                      videoConstraints={{ facingMode: "user", width: 720, height: 720 }}
-                      onUserMedia={() => setError("")}
-                      onUserMediaError={() => setError("Camera access is required for live translation.")}
-                      className="h-full w-full object-cover"
-                    />
-                    <div className="pointer-events-none absolute inset-0 p-6">
-                      <div className="h-full rounded-[32px] border border-dashed border-white/40">
-                        <div className="mx-auto mt-[18%] flex h-[46%] w-[46%] items-center justify-center rounded-[28px] border border-signal/70 bg-signal/5">
-                          <span className="px-6 text-center text-xs font-semibold uppercase tracking-[0.24em] text-signal">
-                            Keep your signing hand inside the guide box
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="grid gap-4 px-5 py-5 sm:grid-cols-[1fr_auto] sm:items-center">
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Live Prediction</p>
-                      <div className="mt-2 flex items-end gap-3">
-                        <span className="font-serif text-5xl text-white">{prediction.predicted_label}</span>
-                        <span className="pb-2 text-sm text-slate-300">{confidencePercent} confidence</span>
-                      </div>
-                      <p className="mt-2 text-sm text-slate-400">Updated {lastUpdated}</p>
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={toggleAnalyzing}
-                      className="rounded-full bg-gradient-to-r from-signal to-aurora px-6 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-ink transition hover:scale-[1.02]"
-                    >
-                      {isAnalyzing ? "Pause capture" : "Start capture"}
-                    </button>
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div className="border-t border-black/5 px-5 py-5">
+              <button
+                type="button"
+                onClick={toggleAnalyzing}
+                className="rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+              >
+                {isAnalyzing ? "Pause capture" : "Start capture"}
+              </button>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="translator" className="section-shell mt-10 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+      <section id="translator" className="section-shell mt-8 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="panel-shell px-6 py-7 sm:px-8">
-          <div className="flex flex-col gap-4 border-b border-white/10 pb-5 sm:flex-row sm:items-end sm:justify-between">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-ember">Transcript</p>
-              <h2 className="mt-2 font-serif text-3xl text-white">Build words from stable predictions</h2>
+              <p className="soft-label">Transcript</p>
+              <h2 className="mt-2 font-serif text-3xl text-ink">Build text from stable predictions</h2>
             </div>
-            <p className="max-w-md text-sm leading-6 text-slate-300">
-              SignSync auto-commits repeated high-confidence predictions and still leaves manual controls for cleanup.
+            <p className="max-w-md text-sm leading-6 text-slate">
+              Repeated high-confidence predictions are added automatically, and the controls stay available for quick cleanup.
             </p>
           </div>
 
-          <div className="mt-6 rounded-[26px] border border-white/10 bg-[#091422] p-5">
-            <p className="min-h-[150px] whitespace-pre-wrap text-2xl leading-relaxed text-white sm:text-3xl">
-              {transcript || "Your translated text will appear here as confident gestures are recognized."}
+          <div className="mt-6 rounded-[22px] border border-black/5 bg-[#fbfaf7] p-5">
+            <p className="min-h-[150px] whitespace-pre-wrap text-2xl leading-relaxed text-ink sm:text-3xl">
+              {transcript || "Translated text will appear here as gestures are recognized."}
             </p>
           </div>
 
@@ -434,42 +409,42 @@ function Home() {
             <button
               type="button"
               onClick={() => commitLetter(prediction.predicted_label)}
-              className="rounded-full border border-white/15 bg-white/5 px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+              className="rounded-full border border-black/10 bg-white px-4 py-3 text-sm font-semibold text-ink transition hover:bg-slate-50"
             >
               Add current letter
             </button>
             <button
               type="button"
               onClick={appendSpace}
-              className="rounded-full border border-white/15 bg-white/5 px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+              className="rounded-full border border-black/10 bg-white px-4 py-3 text-sm font-semibold text-ink transition hover:bg-slate-50"
             >
               Add space
             </button>
             <button
               type="button"
               onClick={backspace}
-              className="rounded-full border border-white/15 bg-white/5 px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+              className="rounded-full border border-black/10 bg-white px-4 py-3 text-sm font-semibold text-ink transition hover:bg-slate-50"
             >
               Backspace
             </button>
             <button
               type="button"
               onClick={clearTranscript}
-              className="rounded-full border border-ember/30 bg-ember/10 px-4 py-3 text-sm font-semibold text-amber-100 transition hover:bg-ember/20"
+              className="rounded-full border border-orange-200 bg-orange-50 px-4 py-3 text-sm font-semibold text-ember transition hover:bg-orange-100"
             >
               Clear
             </button>
             <button
               type="button"
               onClick={copyTranscript}
-              className="rounded-full bg-white px-4 py-3 text-sm font-semibold text-ink transition hover:bg-slate-100"
+              className="rounded-full bg-ink px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
             >
               {copyLabel}
             </button>
           </div>
 
           {error ? (
-            <div className="mt-5 rounded-2xl border border-ember/30 bg-ember/10 px-4 py-4 text-sm leading-6 text-amber-100">
+            <div className="mt-5 rounded-2xl border border-orange-200 bg-orange-50 px-4 py-4 text-sm leading-6 text-ember">
               {error}
             </div>
           ) : null}
@@ -477,16 +452,16 @@ function Home() {
 
         <div className="space-y-6">
           <div className="panel-shell px-6 py-7 sm:px-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-signal">Top Predictions</p>
+            <p className="soft-label">Top predictions</p>
             <div className="mt-5 space-y-3">
               {(prediction.top_predictions.length ? prediction.top_predictions : [{ label: "Waiting", confidence: 0 }]).map((item) => (
-                <div key={item.label} className="rounded-[22px] border border-white/10 bg-white/5 p-4">
+                <div key={item.label} className="rounded-[18px] border border-black/5 bg-[#fbfaf7] p-4">
                   <div className="flex items-center justify-between">
-                    <span className="font-serif text-3xl text-white">{item.label}</span>
-                    <span className="text-sm font-semibold text-slate-300">{Math.round(item.confidence * 100)}%</span>
+                    <span className="font-serif text-3xl text-ink">{item.label}</span>
+                    <span className="text-sm font-semibold text-slate">{Math.round(item.confidence * 100)}%</span>
                   </div>
-                  <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/10">
-                    <div className="h-full rounded-full bg-gradient-to-r from-signal to-aurora" style={{ width: `${Math.max(8, item.confidence * 100)}%` }} />
+                  <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-200">
+                    <div className="h-full rounded-full bg-ink" style={{ width: `${Math.max(8, item.confidence * 100)}%` }} />
                   </div>
                 </div>
               ))}
@@ -494,14 +469,10 @@ function Home() {
           </div>
 
           <div className="panel-shell px-6 py-7 sm:px-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-aurora">What changed</p>
-            <div className="mt-5 grid gap-4">
-              {FEATURE_CARDS.map((card) => (
-                <div key={card.title} className="rounded-[24px] border border-white/10 bg-slate/60 p-5">
-                  <h3 className="text-lg font-semibold text-white">{card.title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-300">{card.copy}</p>
-                </div>
-              ))}
+            <p className="soft-label">Session notes</p>
+            <div className="mt-4 space-y-3 text-sm leading-6 text-slate">
+              <p>The camera feed stays front and center so the translator feels like a tool, not a landing page.</p>
+              <p>Status, prediction, and transcript are separated into calmer blocks with fewer competing accents.</p>
             </div>
           </div>
         </div>
@@ -514,21 +485,21 @@ function AppShell() {
   return (
     <div className="min-h-screen">
       <header className="section-shell pt-5 sm:pt-7">
-        <div className="panel-shell flex flex-col gap-4 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <Link to="/" className="font-serif text-3xl tracking-[0.08em] text-white">
+        <div className="flex flex-col gap-4 border-b border-black/10 px-1 pb-4 sm:flex-row sm:items-center sm:justify-between">
+          <Link to="/" className="font-serif text-3xl tracking-[0.06em] text-ink">
             SIGNSYNC
           </Link>
-          <nav className="flex flex-wrap items-center gap-4 text-sm font-medium text-slate-200">
-            <Link to="/" className="transition hover:text-white">
+          <nav className="flex flex-wrap items-center gap-5 text-sm font-medium text-slate">
+            <Link to="/" className="transition hover:text-ink">
               Translator
             </Link>
-            <Link to="/about" className="transition hover:text-white">
+            <Link to="/about" className="transition hover:text-ink">
               About
             </Link>
-            <a href="https://forms.gle/vdX9KEm1Z4HhUfkFA" className="transition hover:text-white">
+            <a href="https://forms.gle/vdX9KEm1Z4HhUfkFA" className="transition hover:text-ink">
               Contribute Data
             </a>
-            <a href="mailto:info.signsync@gmail.com" className="transition hover:text-white">
+            <a href="mailto:info.signsync@gmail.com" className="transition hover:text-ink">
               Contact
             </a>
           </nav>
@@ -541,7 +512,7 @@ function AppShell() {
       </Routes>
 
       <footer className="section-shell pb-8 pt-8 sm:pb-10">
-        <div className="flex flex-col gap-4 border-t border-white/10 pt-6 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 border-t border-black/10 pt-6 text-sm text-slate sm:flex-row sm:items-center sm:justify-between">
           <p>SignSync bridges ASL and text with React, Tailwind, Flask, and TensorFlow.</p>
           <p>Built for real-time translation and ready for deeper model iteration.</p>
         </div>
